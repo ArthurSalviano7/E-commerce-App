@@ -1,8 +1,11 @@
 package com.example.vitrine_virtual.produto.modelo;
 
+import org.hibernate.annotations.UuidGenerator;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -19,11 +22,13 @@ import lombok.Setter;
 public class Produto {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @UuidGenerator
+    @Column(name = "id", unique = true, updatable = false)
+    private String id;
     private String descricao;
     private int quantidade;
     private double valor;
     private String categoria;
+    private Double avaliacao;
     private String urlImagem; //caminho para a imagem do produto
 }
