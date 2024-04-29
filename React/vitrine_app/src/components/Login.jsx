@@ -26,22 +26,24 @@ export default function Login() {
     };
 
     return (
-        <div>
-            <form onSubmit={handleLogin}>
-                <div>
-                    <span>Email:</span>
-                    <input type="text" name='email' value={values.email} onChange={onChange} required/>
-                </div>
-                <div>
-                    <span>Senha:</span>
-                    <input type="password" name='password' value={values.password} onChange={onChange} required/>
-                </div>
-            
-                <div>
-                    <button type="submit">Entrar</button>
-                </div>
-            </form>
-        
+        <div className="login template d-flex justify-content-center align-items-center 100-w vh-100 bg-primary">
+            <div className="40-w p-5 rounded bg-white">
+                <form onSubmit={handleLogin}>
+                    <h3 className="text-center">Login</h3>
+                    <div className="mb-2">
+                        <label className="p-2">Email:</label>
+                        <input type="text" name='email' value={values.email} onChange={onChange} placeholder="Insira o email" className="form-login" required/>
+                    </div>
+                    <div className="mb-2">
+                        <label className="p-1">Senha:</label>
+                        <input type="password" name='password' value={values.password} onChange={onChange} placeholder="Insira a senha" className="form-login" required/>
+                    </div>
+                
+                    <div className="d-grid">
+                        <button type="submit" className="btn btn-primary">Entrar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }
