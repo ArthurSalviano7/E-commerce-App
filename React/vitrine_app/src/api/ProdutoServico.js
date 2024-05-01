@@ -15,7 +15,7 @@ export async function getProduto(id){
 }
 
 export async function alterarProduto(produto){
-    return await axios.post(API_URL, produto);
+    return await axios.put(API_URL, produto);
 }
 
 export async function updateImagem(formData){

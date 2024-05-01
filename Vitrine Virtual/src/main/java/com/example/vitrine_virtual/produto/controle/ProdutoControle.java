@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/produtos")
-@CrossOrigin(origins = "*") //Libera o acesso da api para todos. Substituir por ""http://localhost:3000" para liberar somente React
 public class ProdutoControle {
     
     private static final String DIRETORIO_IMAGENS = DiretorioImagens.DIRETORIO_IMAGENS;
@@ -51,9 +50,16 @@ public class ProdutoControle {
         return produtoServico.usar(id);
     }
     
+    //Método para listar todos os produtos
     @GetMapping("/listar")
     public Iterable<Produto> listar() {
         return produtoServico.listar();
+    }
+
+    //Método para retornar todos os produtos de uma loja específica pelo idLoja
+    @GetMapping("/listar/{id}")
+    public Iterable<Produto> listarProdutosDaLoja(@PathVariable String id) {
+        return produtoServico.listarProdutosDaLoja(id);
     }
 
     @DeleteMapping("/remover/{id}")

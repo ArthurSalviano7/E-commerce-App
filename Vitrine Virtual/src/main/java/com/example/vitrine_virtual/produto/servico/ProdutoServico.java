@@ -61,6 +61,11 @@ public class ProdutoServico {
         return produtoRepositorio.findAll();
     }
 
+    //Função para listar produtos
+    public Iterable<Produto> listarProdutosDaLoja(String id){
+        return produtoRepositorio.findAllByLojaId (id);
+    }
+
     //Função para retornar um produto pelo id(UUID)
     public ResponseEntity<?> usar(String id){
         Optional<Produto> produtoOptional = produtoRepositorio.findById(id);
