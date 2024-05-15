@@ -5,8 +5,14 @@ const API_URL = 'http://localhost:8080/produtos';
 export async function salvarProduto(produto){
     return await axios.post(`${API_URL}/cadastrar`, produto);
 }
-export async function getImagemProduto(id){
-    return await axios.get(`${API_URL}/imagens/${id}`);
+export async function getImagemProduto(urlImagem){
+    try {
+        const response = await axios.get(urlImagem, { responseType: 'blob' });
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao obter imagem:', error);
+        throw error;
+    }
 }
 export async function listarProdutos(){
     return await axios.get(`${API_URL}/listar`);

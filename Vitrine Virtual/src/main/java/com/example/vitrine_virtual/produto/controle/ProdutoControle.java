@@ -72,7 +72,7 @@ public class ProdutoControle {
         return ResponseEntity.ok().body(produtoServico.uploadImagem(id, file));
     }
 
-    @GetMapping(path = "/imagens/{id}", produces = MediaType.IMAGE_PNG_VALUE)
+    @GetMapping(path = "/imagens/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public byte[] getImagem(@PathVariable("id") String id) throws IOException {
         return Files.readAllBytes(Paths.get(DIRETORIO_IMAGENS + id));
     }
