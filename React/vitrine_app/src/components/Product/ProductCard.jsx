@@ -48,9 +48,12 @@ const [produto, setProduto] = useState({
 
   // Renderiza o componente
   return (
-    <div className="container p-5">
-              <div className="card border-0 rounded-0" style={{maxWidth: '15rem', maxHeight: '18rem'}}>
-                <img src={imagem} alt="Imagem do produto" className='card-img-top'/>
+    <div className="p-3">
+              <div className="card border-0 rounded-0" style={{width: '12rem'}}>
+                <div className='d-flex' style={{height: '100%'}}>
+                  <img src={imagem} alt="Imagem do produto" className='card-img-top img-fluid' style={{ objectFit: 'cover', height: '100%', width: '100%' }}/>
+                </div>
+
                 <div className="card-body">
                     <div className='row'>
                         <div className='col-10'>
@@ -71,6 +74,8 @@ const [produto, setProduto] = useState({
     </div>
   );
 }
+
+
 
 
 

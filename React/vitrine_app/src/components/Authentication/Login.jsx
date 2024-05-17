@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { login, register} from "../api/AuthServico";
+import { login, register} from "../../api/AuthServico";
 
 export default function Login() {
     

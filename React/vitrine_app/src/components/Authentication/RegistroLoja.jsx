@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
-import { login, register} from "../api/AuthServico";
-import { salvarLoja} from "../api/LojaServico";
+import { login, register} from "../../api/AuthServico";
+import { salvarLoja} from "../../api/LojaServico";
 
 export default function RegistroLoja() {
     
