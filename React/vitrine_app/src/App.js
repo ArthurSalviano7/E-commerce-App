@@ -2,18 +2,18 @@ import { useState } from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProdutoForm from './components/ProdutoForm';
-import Inicial from './components/TelaInicial';
-import Login from './components/Login';
-import RegistroLoja from './components/RegistroLoja';
-import RegistroComprador from './components/RegistroComprador';
+import Home from './components/Home';
+import Login from './components/Authentication/Login';
+import RegistroLoja from './components/Authentication/RegistroLoja';
+import RegistroComprador from './components/Authentication/RegistroComprador';
 
 function App() {
   return (
 
     <BrowserRouter>
       <Routes>
+        <Route path='/' element={<Home/>}></Route>
         <Route path='/login' element={<Login />}></Route> 
-        <Route path='/home' element={<Inicial/>}></Route>
         <Route path='/produto-cadastrar' element={<ProdutoForm/>}></Route>
         <Route path='/registrar-loja' element={<RegistroLoja />}></Route>
         <Route path='/registrar-comprador' element={<RegistroComprador />}></Route>
