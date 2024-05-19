@@ -7,9 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.example.vitrine_virtual.carrinho.modelo.Carrinho;
+import com.example.vitrine_virtual.carrinho.repositorio.CarrinhoRepositorio;
 import com.example.vitrine_virtual.comprador.modelo.Comprador;
 import com.example.vitrine_virtual.comprador.repositorio.CompradorRepositorio;
 import com.example.vitrine_virtual.produto.modelo.MensagemApi;
+import com.example.vitrine_virtual.usuario.modelo.Usuario;
 
 import jakarta.transaction.Transactional;
 
@@ -21,10 +24,23 @@ public class CompradorServico {
     private CompradorRepositorio compradorRepositorio;
 
     @Autowired
+    private CarrinhoRepositorio carrinhoRepositorio;
+
+    @Autowired
     private MensagemApi mensagemApi;
 
     //Função para o cadastro de compradores
     public ResponseEntity<?> cadastrar(Comprador comprador){
+        // Salvar o usuário
+        Comprador novoComprador = compradorRepositorio.save(comprador);
+        
+        // Criar um novo carrinho para o usuário
+        Carrinho carrinho = new Carrinho();
+        carrinho.setComprador(novoComprador);
+        carrinhoRepositorio.save(carrinho);
+
+        novoComprador.setCarrinho(carrinho);
+
         return new ResponseEntity<Comprador>(compradorRepositorio.save(comprador), HttpStatus.CREATED);
     }
 

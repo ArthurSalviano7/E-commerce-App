@@ -35,6 +35,7 @@ public class SecurityConfig {
                         .requestMatchers("/lojas/**").permitAll()
                         .requestMatchers("/produtos/**").permitAll()
                         .requestMatchers("/compradores/**").permitAll()
+                        .requestMatchers("/carrinhos/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
