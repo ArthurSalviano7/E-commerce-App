@@ -1,9 +1,11 @@
 import React, { useRef, useState } from "react";
 import { login, register} from "../../api/AuthServico";
 import { salvarComprador} from "../../api/CompradorServico";
+import { useNavigate } from "react-router-dom";
 
 export default function RegistroComprador() {
-    
+    const navigate = useNavigate();
+
     //Informações para o cadastro da loja
     const [values, setValues] = useState({
         nome: '',
@@ -35,17 +37,26 @@ export default function RegistroComprador() {
             const { data, status } = await register(newUserValues);
             console.log(data);
 
+            // Armazena o token no localStorage
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('name', data.name);
+
             // Verificar se a requisição foi bem-sucedida (código de status 2xx)
             if (status >= 200 && status < 300) {
                 // Chamar o método para salvar o Comprador
                 const {data} = await salvarComprador(values);
                 console.log(data);
+                // Armazena o id do usuário (idComprador) no localStorage
+                localStorage.setItem('idComprador', data.id);
             } else {
                 console.error("Erro ao registrar usuário:", data.message);
             }
+            navigate("/"); //Leva para página principal após o registro
+
         }catch(error){
             console.log(error)
         }
+
     };
 
     return (

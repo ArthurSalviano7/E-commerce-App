@@ -2,9 +2,13 @@ package com.example.vitrine_virtual.comprador.modelo;
 
 import org.hibernate.annotations.UuidGenerator;
 
+import com.example.vitrine_virtual.carrinho.modelo.Carrinho;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +31,9 @@ public class Comprador {
     private String cpf;
     private String endereco; //Endereco para entrega
     private String telefone;
+
+    @OneToOne(mappedBy = "comprador", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Carrinho carrinho;
 
     //Historico De Compras
 

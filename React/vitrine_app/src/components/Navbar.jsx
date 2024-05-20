@@ -20,11 +20,16 @@ const Navbar = ({ searchText, setSearchText, handleSearch}) => {
         handleSearch();
     };
 
+    const handleHomeButton = () => {
+        navigate("/"); 
+        window.location.reload()
+    }
+
     return (
         <nav className="navbar bg-dark d-inline-flex vw-100">
             <div className='container h-100'>
                 <div className='justify-content-start'>
-                    <span style={{cursor: 'pointer'}} onClick={() => window.location.reload()}>
+                    <span style={{cursor: 'pointer'}} onClick={() => handleHomeButton()}>
                     <img src={cart} width={80} />
                     <img src={logoName} height={40}/>
                     </span>
@@ -38,9 +43,10 @@ const Navbar = ({ searchText, setSearchText, handleSearch}) => {
                 </div>
 
                 <div className='justify-content-end'>
-                <button className="btn">
+                <button className="btn" onClick={() => navigate("/cart")}>
                     <img src={cart} width={30} />
                 </button>
+                
                 <button className="btn btn-primary" onClick={() => navigate("/login")}>Login</button> {/* Botão de login */}
                 </div>
             </div>
