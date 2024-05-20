@@ -3,21 +3,28 @@ import {getImagemProduto, listarProdutos, getProduto} from "../../api/ProdutoSer
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { BiCartAdd} from "react-icons/bi";
+import { adicionarProdutoAoCarrinho } from '../../api/CarrinhoServico';
 
 export default function ProductCard({idProduto}) {
-  
-const [imagem, setImagem] = useState(null);
-const [produto, setProduto] = useState({
-    descricao: '',
-    quantidade: '',
-    valor: '',
-    categoria: '',
-    descricao: '',
-    avaliacao: '',
-    urlImagem: ''
-});
+  const [imagem, setImagem] = useState(null);
+  const [produto, setProduto] = useState({
+      descricao: '',
+      quantidade: '',
+      valor: '',
+      categoria: '',
+      descricao: '',
+      avaliacao: '',
+      urlImagem: ''
+  });
 
-    
+  const handleAddProduct = async (idProduto) => {
+    try {
+      const idComprador = localStorage.getItem('idComprador');
+      const {data} = await adicionarProdutoAoCarrinho(idComprador, idProduto, 1);
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   useEffect(() => {
     
@@ -66,7 +73,7 @@ const [produto, setProduto] = useState({
                         <h5>R$ {produto.valor}</h5>
                     </div>
                     <div className='col-8'>
-                        <a href='#' className='btn btn-dark text-warning p-3 w-100 rounded'>ADD TO CART  <BiCartAdd size={25}/></a>
+                        <button href='#' className='btn btn-dark text-warning p-3 w-100 rounded' onClick={() => handleAddProduct(produto.id)}>ADD TO CART  <BiCartAdd size={25}/></button>
                     </div>
 
                 </div>
