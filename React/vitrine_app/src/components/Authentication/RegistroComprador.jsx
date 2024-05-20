@@ -1,14 +1,16 @@
 import React, { useRef, useState } from "react";
-import { login, register} from "../api/AuthServico";
-import { salvarLoja} from "../api/LojaServico";
+import { login, register} from "../../api/AuthServico";
+import { salvarComprador} from "../../api/CompradorServico";
+import { useNavigate } from "react-router-dom";
 
-export default function RegistroLoja() {
-    
+export default function RegistroComprador() {
+    const navigate = useNavigate();
+
     //Informações para o cadastro da loja
     const [values, setValues] = useState({
         nome: '',
         endereco: '',
-        cnpj: '',
+        telefone: '',
         cpf: '',
     });
 
@@ -29,44 +31,53 @@ export default function RegistroLoja() {
     const handleRegister = async (event) => {
         event.preventDefault(); // Evitar o comportamento padrão do formulário
         try{
-            const newUserValues = { ...userValues, name: values.nome }; //Atualizando campo "name" do userValues para o nome da loja
+            const newUserValues = { ...userValues, name: values.nome }; //Atualizando campo "name" do userValues para o nome do Comprador
             setUserValues(newUserValues);
 
             const { data, status } = await register(newUserValues);
             console.log(data);
 
+            // Armazena o token no localStorage
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('name', data.name);
+
             // Verificar se a requisição foi bem-sucedida (código de status 2xx)
             if (status >= 200 && status < 300) {
-                // Chamar o método para salvar a loja
-                const {data} = await salvarLoja(values);
+                // Chamar o método para salvar o Comprador
+                const {data} = await salvarComprador(values);
                 console.log(data);
+                // Armazena o id do usuário (idComprador) no localStorage
+                localStorage.setItem('idComprador', data.id);
             } else {
                 console.error("Erro ao registrar usuário:", data.message);
             }
+            navigate("/"); //Leva para página principal após o registro
+
         }catch(error){
             console.log(error)
         }
+
     };
 
     return (
         <div>
             <form onSubmit={handleRegister}>
                 <div>
-                    <span>Nome da Loja:</span>
+                    <span>Nome:</span>
                     <input type="text" name='nome' value={values.nome} onChange={onChange} required/>
                 </div>
                 <div>
-                    <span>Endereço:</span>
+                    <span>Endereço de entrega:</span>
                     <input type="text" name='endereco' value={values.endereco} onChange={onChange} required/>
                 </div>
                 <div>
-                    <span>CNPJ:</span>
-                    <input type="text" name='cnpj' value={values.cnpj} onChange={onChange} required/>
-                </div>
-                <div>
-                    <span>CPF do Proprietário:</span>
+                    <span>CPF:</span>
                     <input type="text" name='cpf' value={values.cpf} onChange={onChange} required/>
                 </div>
+                <div>
+                    <span>Telefone:</span>
+                    <input type="text" name='telefone' value={values.telefone} onChange={onChange} required/>
+                </div> 
                 <div>
                     <span>Email:</span>
                     <input type="text" name='email' value={userValues.email} onChange={onChange} required/>
@@ -77,7 +88,7 @@ export default function RegistroLoja() {
                 </div>
             
                 <div>
-                    <button type="submit">Cadastrar Loja</button>
+                    <button type="submit">Cadastrar Conta</button>
                 </div>
             </form>
         

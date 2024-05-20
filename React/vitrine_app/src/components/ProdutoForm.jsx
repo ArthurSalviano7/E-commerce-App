@@ -47,7 +47,7 @@ export default function ProdutoForm() {
                 </div>
                 <div>
                     <span>Valor:</span>
-                    <input type="number" name='valor' value={values.name} onChange={onChange} required/>
+                    <input type="text" name='valor' value={values.name} onChange={onChange} pattern="[0-9]+([.][0-9]+)?" required/>
                 </div>
                 <div>
                     <span>Categoria:</span>

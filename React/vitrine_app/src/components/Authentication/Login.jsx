@@ -1,8 +1,10 @@
 import React, { useRef, useState } from "react";
-import { login, register} from "../api/AuthServico";
+import { login, register} from "../../api/AuthServico";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-    
+    const navigate = useNavigate();
+
     const [values, setValues] = useState({
         name: '',
         email: '',
@@ -20,6 +22,7 @@ export default function Login() {
         try{
             const {data} = await login(values);
             console.log(data);
+            navigate("/"); //Leva para página principal após o Login
         }catch(error){
             console.log(error)
         }
