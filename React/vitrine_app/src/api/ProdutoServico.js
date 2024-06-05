@@ -17,12 +17,14 @@ export async function getImagemProduto(urlImagem){
 export async function listarProdutos(){
     return await axios.get(`${API_URL}/listar`);
 }
-export async function getProdutos(size = 10){
-    return await axios.get(`${API_URL}?size=${size}`);
-}
 
 export async function getProduto(id){
     return await axios.get(`${API_URL}/usar/${id}`);
+}
+
+// Retorna os produtos de uma loja específica pelo id
+export async function getStoreProducts(idStore){
+    return await axios.get(`${API_URL}/listar/${idStore}`);
 }
 
 export async function alterarProduto(produto){

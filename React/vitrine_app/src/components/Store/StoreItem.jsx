@@ -5,7 +5,7 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 
 
-export default function CartItem({idProduto, quantidade}) {
+export default function StoreItem({ idProduto }) {
 
 const [imagem, setImagem] = useState(null);
 const [produto, setProduto] = useState({
@@ -51,8 +51,8 @@ const [produto, setProduto] = useState({
   return (
     <div className="p-3">
         <div className="border-0 rounded-0 d-flex" style={{width: '100%'}}>
-            <div className='d-flex' style={{height: '100%', width:'20%'}}>
-                <img src={imagem} alt="Imagem do produto" className='' style={{ objectFit: 'cover', height: '100%', width: '100%' }}/>
+            <div className='d-flex' style={{ width: '10%', height: '100px', overflow: 'hidden' }}>
+                <img src={imagem} alt="Imagem do produto" className='' style={{ objectFit: 'contain', height: '100%', width: '100%' }}/>
             </div>
 
             
@@ -68,7 +68,7 @@ const [produto, setProduto] = useState({
               
             <div className='ms-auto d-flex align-items-center'>
                 <button className='btn btn-light p-1 me-1'><AiOutlineMinus /></button>
-                <h5 className='m-0'>{quantidade}</h5>
+                <h5 className='m-0'>{produto.quantidade}</h5>
                 <button className='btn btn-light p-1 ms-1'><AiOutlinePlus /></button>
             </div>
 

@@ -56,27 +56,24 @@ export default function ProductCard({idProduto}) {
   // Renderiza o componente
   return (
     <div className="p-3">
-              <div className="card border-0 rounded-0" style={{width: '12rem'}}>
-                <div className='d-flex' style={{height: '100%'}}>
-                  <img src={imagem} alt="Imagem do produto" className='card-img-top img-fluid' style={{ objectFit: 'cover', height: '100%', width: '100%' }}/>
+              <div className="card border-0 rounded-0" style={{width: '12rem', height: '18rem'}}>
+                <div className='d-flex' style={{ width: '100%', height: '100px', overflow: 'hidden'}}>
+                  <img src={imagem} alt="Imagem do produto" className='card-img-top img-fluid' style={{ objectFit: 'contain', height: '100%', width: '100%' }}/>
                 </div>
 
-                <div className="card-body">
-                    <div className='row'>
-                        <div className='col-10'>
-                            <h4 className="card-title">{produto.descricao}</h4>                                
-                        </div>
+                <div>
+                    <div className='w-100 py-1'>
+                        <h4>{produto.descricao}</h4>                                
                     </div>
                 </div>
-                <div className='row align-items-center'>
-                    <div className='col-4'>
-                        <h5>R$ {produto.valor}</h5>
-                    </div>
-                    <div className='col-8'>
-                        <button href='#' className='btn btn-dark text-warning p-3 w-100 rounded' onClick={() => handleAddProduct(produto.id)}>ADD TO CART  <BiCartAdd size={25}/></button>
-                    </div>
 
+                <div className='align-items-center w-100'>
+                    <h5>R$ {produto.valor}</h5>
                 </div>
+
+                <div className=''>
+                        <button href='#' className='btn btn-dark text-warning p-1 w-100 rounded' onClick={() => handleAddProduct(produto.id)}>ADD TO CART  <BiCartAdd size={25}/></button>
+                  </div>
               </div>   
     </div>
   );
