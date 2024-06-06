@@ -4,8 +4,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { BiCartAdd} from "react-icons/bi";
 import { adicionarProdutoAoCarrinho } from '../../api/CarrinhoServico';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProductCard({idProduto}) {
+
+  const navigate = useNavigate();
   const [imagem, setImagem] = useState(null);
   const [produto, setProduto] = useState({
       descricao: '',
@@ -21,6 +24,8 @@ export default function ProductCard({idProduto}) {
     try {
       const idComprador = localStorage.getItem('idComprador');
       const {data} = await adicionarProdutoAoCarrinho(idComprador, idProduto, 1);
+      navigate("/cart"); // Adiciona produto ao carrinho e leva para a página do carrinho
+    
     } catch (error) {
       console.log(error)
     }

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.example.vitrine_virtual.produto.modelo.MensagemApi;
 import com.example.vitrine_virtual.produto.modelo.Produto;
 import com.example.vitrine_virtual.produto.repositorio.ProdutoRepositorio;
+import com.example.vitrine_virtual.carrinho.repositorio.ProdutoCarrinhoRepositorio;
 import com.example.vitrine_virtual.produto.DiretorioImagens;
 
 import jakarta.transaction.Transactional;
@@ -29,6 +30,9 @@ public class ProdutoServico {
 
     @Autowired
     private ProdutoRepositorio produtoRepositorio;
+
+    @Autowired
+    private ProdutoCarrinhoRepositorio produtoCarrinhoRepositorio;
 
     @Autowired
     private MensagemApi mensagemApi;
@@ -82,7 +86,8 @@ public class ProdutoServico {
 
     //Função para Remover produto pelo id(UUID)
     public ResponseEntity<MensagemApi> remover(String id){
-
+        
+        produtoCarrinhoRepositorio.deleteByProdutoId(id); //Remove o produto dos carrinhos para depois remover do banco de produtos
         produtoRepositorio.deleteById(id);
 
         mensagemApi.setMensagem("O produto foi removido com sucesso");

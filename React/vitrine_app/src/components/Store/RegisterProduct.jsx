@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { salvarProduto, updateImagem } from "../../api/ProdutoServico";
 
+//Card de cadastro de novos produtos
 export default function RegisterProduct({ idLoja }) {
     
     const fileRef = useRef();
@@ -11,7 +12,6 @@ export default function RegisterProduct({ idLoja }) {
         quantidade: '',
         valor: '',
         categoria: '',
-        descricao: '',
         idLoja: '' 
     });
 

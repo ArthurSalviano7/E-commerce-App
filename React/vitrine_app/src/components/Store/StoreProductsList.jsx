@@ -6,7 +6,8 @@ import StoreItem from './StoreItem';
 
 export default function StoreProductsList({ storeProducts }) {
   return (
-    <div className="w-100 border-right border-warning d-flex flex-column">
+    <div className="card p-3 m-3 w-90 border-right border-warning d-flex flex-column">
+      <h1>Estoque de produtos</h1>
       {storeProducts.map((item) => (
             <StoreItem idProduto={item.id}/>
           ))}

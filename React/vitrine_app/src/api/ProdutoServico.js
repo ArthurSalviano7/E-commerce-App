@@ -28,7 +28,7 @@ export async function getStoreProducts(idStore){
 }
 
 export async function alterarProduto(produto){
-    return await axios.put(API_URL, produto);
+    return await axios.put(`${API_URL}/alterar`, produto);
 }
 
 export async function updateImagem(formData){
@@ -36,7 +36,7 @@ export async function updateImagem(formData){
 }
 
 export async function deletarProduto(id){
-    return await axios.delete(`${API_URL}/${id}`);
+    return await axios.delete(`${API_URL}/remover/${id}`);
 }
 
 
