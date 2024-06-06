@@ -35,7 +35,7 @@ export default function CartInfo({ cartItems }) {
           {cartItems.map((item, index) => (
             <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
               <span>{item.produto.descricao}</span>
-              <span>{item.quantidade} x {formatCurrency(item.produto.valor)}</span>
+              <span>{item.quantidade}  {formatCurrency(item.produto.valor)}</span>
             </li>
           ))}
         </ul>
