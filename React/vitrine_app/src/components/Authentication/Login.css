@@ -1,0 +1,23 @@
+.login-container {
+    background-color: #e0e0e0;
+}
+
+.login-form-container {
+    background-color: #f7f7f7;
+    width: 460px;                  /* largura do contêiner */
+    padding: 40px;                     /* Preenchimento interno */
+   
+}
+
+.btn-custom {
+    background-color: #6200ea;   /* Cor do Botão login */
+    border: none;
+}
+
+.btn-custom:hover {
+    background-color: #3700b3;
+}
+
+.text-primary {
+    color: #6200ea 
+}
