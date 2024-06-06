@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { login } from "../../api/AuthServico";
 import { useNavigate } from "react-router-dom";
-import './Login.css'; // Importa o arquivo CSS para estilisação
+import './styles/Login.css'; // Importa o arquivo CSS para estilisação
 
 export default function Login() {
     const navigate = useNavigate();
@@ -42,7 +42,9 @@ export default function Login() {
                         <button type="submit" className="btn btn-primary btn-lg btn-custom">Continuar</button>
                     </div>
                     <div className="text-center mt-2">
-                        <span className="text-muted">Você ainda não tem conta?</span> <a href="/register" className="text-primary">Criar conta</a>
+                        <span className="text-muted">Você ainda não tem conta?</span> <a href="/registrar-comprador" className="text-primary">Criar conta</a> ou
+                        <br />
+                        <a href="/registrar-loja" className="text-primary">Registrar minha loja</a>
                     </div>
                 </form>
               </div>
