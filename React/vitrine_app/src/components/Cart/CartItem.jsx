@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getImagemProduto, getProduto } from "../../api/ProdutoServico";
+import { getImagemProduto, getProduto, removerProdutoDoCarrinho, alterarQuantidadeProdutoNoCarrinho } from "../../api/ProdutoServico";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
@@ -32,17 +32,32 @@ export default function CartItem({ idProduto, quantidade, onRemoverProduto, onAl
         fetchProduct();
     }, [idProduto]);
 
-    const handleRemoveClick = () => {
-        onRemoverProduto(idProduto);
+    const handleRemoveClick = async () => {
+        try {
+            await removerProdutoDoCarrinho(idProduto);
+            onRemoverProduto(idProduto);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
-    const handleAddClick = () => {
-        onAlterarQuantidade(idProduto, quantidade + 1);
+    const handleAddClick = async () => {
+        try {
+            await alterarQuantidadeProdutoNoCarrinho(idProduto, quantidade + 1);
+            onAlterarQuantidade(idProduto, quantidade + 1);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
-    const handleSubtractClick = () => {
+    const handleSubtractClick = async () => {
         if (quantidade > 1) {
-            onAlterarQuantidade(idProduto, quantidade - 1);
+            try {
+                await alterarQuantidadeProdutoNoCarrinho(idProduto, quantidade - 1);
+                onAlterarQuantidade(idProduto, quantidade - 1);
+            } catch (error) {
+                console.error(error);
+            }
         }
     };
 
@@ -71,6 +86,7 @@ export default function CartItem({ idProduto, quantidade, onRemoverProduto, onAl
         </div>
     );
 }
+
 
 
 
