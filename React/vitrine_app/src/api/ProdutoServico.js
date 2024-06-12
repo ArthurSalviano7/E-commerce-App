@@ -22,16 +22,17 @@ export async function listarProdutos(){
     return await axios.get(`${API_URL}/listar`);
 }
 
-export async function getProdutos(size = 10){
-    return await axios.get(`${API_URL}?size=${size}`);
-}
-
 export async function getProduto(id){
     return await axios.get(`${API_URL}/usar/${id}`);
 }
 
+// Retorna os produtos de uma loja específica pelo id
+export async function getStoreProducts(idStore){
+    return await axios.get(`${API_URL}/listar/${idStore}`);
+}
+
 export async function alterarProduto(produto){
-    return await axios.put(API_URL, produto);
+    return await axios.put(`${API_URL}/alterar`, produto);
 }
 
 export async function updateImagem(formData){
@@ -39,7 +40,7 @@ export async function updateImagem(formData){
 }
 
 export async function deletarProduto(id){
-    return await axios.delete(`${API_URL}/${id}`);
+    return await axios.delete(`${API_URL}/remover/${id}`);
 }
 
 // Funções para manipular o carrinho
