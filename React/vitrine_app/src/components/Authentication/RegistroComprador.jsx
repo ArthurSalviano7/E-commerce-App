@@ -1,97 +1,73 @@
-import React, { useRef, useState } from "react";
-import { login, register} from "../../api/AuthServico";
-import { salvarComprador} from "../../api/CompradorServico";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { register } from "../../api/AuthServico";
+import { salvarComprador } from "../../api/CompradorServico";
+import { useNavigate, Link } from "react-router-dom";
+import "./styles/RegistroComprador.css"; // Importa o arquivo CSS de estilização
 
 export default function RegistroComprador() {
     const navigate = useNavigate();
 
-    //Informações para o cadastro da loja
     const [values, setValues] = useState({
         nome: '',
         endereco: '',
         telefone: '',
         cpf: '',
-    });
-
-    const [userValues, setUserValues] = useState({
-        name: '',
         email: '',
         password: '',
     });
 
-    //Automaticamente atualizar informações do usuario ao mudar valores
+    const [errorMessage, setErrorMessage] = useState('');
+
     const onChange = (event) => {
-        setValues({...values, [event.target.name]: event.target.value});
-        setUserValues({...userValues, [event.target.name]: event.target.value});
-        console.log(values);
-        console.log(userValues);
+        setValues({ ...values, [event.target.name]: event.target.value });
     };
 
     const handleRegister = async (event) => {
-        event.preventDefault(); // Evitar o comportamento padrão do formulário
-        try{
-            const newUserValues = { ...userValues, name: values.nome }; //Atualizando campo "name" do userValues para o nome do Comprador
-            setUserValues(newUserValues);
+        event.preventDefault();
+        try {
+            const newUserValues = { ...values };
+            delete newUserValues.nome;
 
             const { data, status } = await register(newUserValues);
-            console.log(data);
 
-            // Armazena o token no localStorage
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('name', data.name);
-
-            // Verificar se a requisição foi bem-sucedida (código de status 2xx)
             if (status >= 200 && status < 300) {
-                // Chamar o método para salvar o Comprador
-                const {data} = await salvarComprador(values);
-                console.log(data);
-                // Armazena o id do usuário (idComprador) no localStorage
-                localStorage.setItem('idComprador', data.id);
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('name', data.name);
+
+                const { data: compradorData } = await salvarComprador(values);
+                localStorage.setItem('idComprador', compradorData.id);
+
+                navigate("/");
+            } else if (status === 409) { // Código de status HTTP 409 para conflito, que pode indicar que o email já está cadastrado
+                setErrorMessage("Esse email já possui cadastro");
             } else {
                 console.error("Erro ao registrar usuário:", data.message);
+                setErrorMessage("Erro ao registrar usuário");
             }
-            navigate("/"); //Leva para página principal após o registro
-
-        }catch(error){
-            console.log(error)
+        } catch (error) {
+            console.log(error);
+            setErrorMessage("Erro ao registrar usuário");
         }
-
     };
 
     return (
-        <div>
-            <form onSubmit={handleRegister}>
-                <div>
-                    <span>Nome:</span>
-                    <input type="text" name='nome' value={values.nome} onChange={onChange} required/>
+        <div className="registro-comprador-container">
+            <form onSubmit={handleRegister} className="registro-comprador-form">
+                <div className="campos">
+                <h2>Criar conta</h2>
+                    <input type="text" name='nome' placeholder="Nome" value={values.nome} onChange={onChange} required />
+                    <input type="text" name='endereco' placeholder="Endereço de entrega" value={values.endereco} onChange={onChange} required />
+                    <input type="text" name='telefone' placeholder="Telefone" value={values.telefone} onChange={onChange} required />
+                    <input type="text" name='cpf' placeholder="CPF" value={values.cpf} onChange={onChange} required />
+                    <input type="text" name='email' placeholder="Email" value={values.email} onChange={onChange} required />
+                    <input type="password" name='password' placeholder="Senha" value={values.password} onChange={onChange} required />
                 </div>
-                <div>
-                    <span>Endereço de entrega:</span>
-                    <input type="text" name='endereco' value={values.endereco} onChange={onChange} required/>
-                </div>
-                <div>
-                    <span>CPF:</span>
-                    <input type="text" name='cpf' value={values.cpf} onChange={onChange} required/>
-                </div>
-                <div>
-                    <span>Telefone:</span>
-                    <input type="text" name='telefone' value={values.telefone} onChange={onChange} required/>
-                </div> 
-                <div>
-                    <span>Email:</span>
-                    <input type="text" name='email' value={userValues.email} onChange={onChange} required/>
-                </div>
-                <div>
-                    <span>Senha:</span>
-                    <input type="password" name='password' value={userValues.password} onChange={onChange} required/>
-                </div>
-            
-                <div>
+                {errorMessage && <div className="error-message" style={{ color: 'red' }}>{errorMessage}</div>}
+                <div className="botoes">
+                    <Link to="/">Voltar</Link>
                     <button type="submit">Cadastrar Conta</button>
                 </div>
             </form>
-        
         </div>
     );
 }

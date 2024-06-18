@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { login } from "../../api/AuthServico";
-import { useNavigate } from "react-router-dom";
-import './styles/Login.css'; // Importa o arquivo CSS para estilisação
+import { useNavigate, Link } from "react-router-dom";
+import './styles/Login.css'; // Importa o arquivo CSS de estilização
 
 export default function Login() {
     const navigate = useNavigate();
@@ -11,9 +11,10 @@ export default function Login() {
         password: '',
     });
 
+    const [errorMessage, setErrorMessage] = useState('');
+
     const onChange = (event) => {
         setValues({ ...values, [event.target.name]: event.target.value });
-        console.log(values);
     };
 
     const handleLogin = async (event) => {
@@ -24,30 +25,33 @@ export default function Login() {
             navigate("/"); // Leva para página principal após o Login
         } catch (error) {
             console.log(error);
+            setErrorMessage('Usuário ou senha incorretos. Por favor, tente novamente.');
         }
     };
 
     return (
-        <div className="container-fluid vh-100 d-flex align-items-center justify-content-center login-container">
-            <div className="login-form-container p-5 rounded">
-                <form onSubmit={handleLogin} className="w-100">
-                    <h3 className="text-center mb-4">Fazer login</h3>
-                    <div className="mb-3">
-                        <input type="email" name='email' value={values.email} onChange={onChange} placeholder="E-mail" className="form-control" required />
+        <div className="login-page">
+            <div className="login-container">
+                <form onSubmit={handleLogin} className="login-form">
+                    <h3 className="text-center login-title">Fazer login</h3>
+                    {errorMessage && <div className="alert alert-danger text-center">{errorMessage}</div>}
+                    <div className="mb-3 input-wrapper">
+                        <input type="email" name='email' value={values.email} onChange={onChange} placeholder="E-mail" className="form-control input" required />
                     </div>
-                    <div className="mb-3">
-                        <input type="password" name='password' value={values.password} onChange={onChange} placeholder="Senha" className="form-control" required />
+                    <div className="mb-3 input-wrapper">
+                        <input type="password" name='password' value={values.password} onChange={onChange} placeholder="Senha" className="form-control input" required />
                     </div>
-                    <div className="d-grid">
-                        <button type="submit" className="btn btn-primary btn-lg btn-custom">Continuar</button>
+                    <div className="d-grid button-wrapper">
+                        <button type="submit" className="btn btn-primary btn-lg btn-custom submit-button">Continuar</button>
                     </div>
-                    <div className="text-center mt-2">
-                        <span className="text-muted">Você ainda não tem conta?</span> <a href="/registrar-comprador" className="text-primary">Criar conta</a> ou
-                        <br />
-                        <a href="/registrar-loja" className="text-primary">Registrar minha loja</a>
+                    <div className="text-center mt-2 link-wrapper">
+                        <Link to="#" onClick={() => navigate(-1)} className="link back-link">Voltar</Link>
+                    </div>
+                    <div className="text-center mt-2 link-wrapper">
+                        <span className="text-muted">Você ainda não tem conta?</span> <a href="/registrar-comprador" className="text-primary link">Criar conta</a>
                     </div>
                 </form>
-              </div>
-         </div>
-     );
+            </div>
+        </div>
+    );
 }

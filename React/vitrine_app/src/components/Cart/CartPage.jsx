@@ -44,7 +44,7 @@ export default function CartPage() {
     };
 
     return (
-        <div>
+        <div style={{ marginTop: '100px' }}>
             <Navbar searchText={searchText} setSearchText={setSearchText} handleSearch={handleSearch} />
             <div className='d-flex flex-row vh-100 py-3'>
                 <CartProductList cartItems={produtos} updateCart={updateCart} />
