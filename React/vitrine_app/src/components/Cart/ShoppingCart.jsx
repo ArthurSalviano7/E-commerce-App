@@ -5,7 +5,7 @@ import CartInfo from './CartInfo';
 import CartProductList from './CartProductList';
 import { searchProduct } from '../Product/searchProductService';
 
-export default function CartPage() {
+export default function ShoppingCart() {
     const [produtos, setProdutos] = useState([]);
     const [searchText, setSearchText] = useState('');
 
@@ -14,8 +14,7 @@ export default function CartPage() {
             try {
                 const idComprador = localStorage.getItem('idComprador');
                 const response = await listarProdutosDoCarrinho(idComprador);
-                setProdutos(response.data);
-                console.log(response.data);
+                setProdutos(response.data); // Inicialmente, mostra todos os produtos
             } catch (error) {
                 console.error(error);
             }
@@ -39,31 +38,15 @@ export default function CartPage() {
         fetchFilteredProducts();
     };
 
-    const updateCart = (updatedItems) => {
-        setProdutos(updatedItems);
-    };
-
     return (
-        <div style={{ marginTop: '100px' }}>
+        <div>
             <Navbar searchText={searchText} setSearchText={setSearchText} handleSearch={handleSearch} />
+      
             <div className='d-flex flex-row vh-100 py-3'>
-                <CartProductList cartItems={produtos} updateCart={updateCart} />
+                <CartProductList cartItems={produtos} />
                 <CartInfo cartItems={produtos} />
             </div>
         </div>
     );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 

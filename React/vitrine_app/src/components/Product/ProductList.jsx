@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import {getImagemProduto, listarProdutos} from "../../api/ProdutoServico";
+import { getImagemProduto, listarProdutos } from "../../api/ProdutoServico";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProductCard from './ProductCard';
 
-export default function ProductList({filteredProducts}) {
+export default function ProductList({ filteredProducts }) {
                    
   const [produtos, setProdutos] = useState([]);
 
@@ -20,22 +20,42 @@ export default function ProductList({filteredProducts}) {
     // Chamando a função para buscar os produtos pela api
     fetchProducts();
   }, []);
-  
+
+  // Estilo para a margem superior ajustável
+  const estiloMargemTopo = {
+    marginTop: '100px', // Você pode ajustar este valor conforme necessário
+  };
 
   // Renderiza o componente
   return (
-    <div className="container">
-        <div className="d-flex justify-content-start flex-wrap">
-          {/* Mapeia os primeiros produtos e retorna um elemento */}
-          
-          {console.log(filteredProducts)}
+    <div className="container" style={estiloMargemTopo}>
+        <div className="d-flex justify-content-center flex-wrap">
+          {/* Mapeia os produtos e retorna um elemento */}
           {filteredProducts.map((produto) => (
-            <ProductCard idProduto={produto.id}/>
+            <ProductCard key={produto.id} idProduto={produto.id} />
           ))}
         </div>
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

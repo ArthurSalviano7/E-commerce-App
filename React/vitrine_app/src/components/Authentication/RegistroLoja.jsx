@@ -1,12 +1,12 @@
-import React, { useRef, useState } from "react";
-import { login, register} from "../../api/AuthServico";
-import { salvarLoja} from "../../api/LojaServico";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { register } from "../../api/AuthServico";
+import { salvarLoja } from "../../api/LojaServico";
+import { useNavigate, Link } from "react-router-dom";
+import './styles/RegistroLoja.css'; // Importa o arquivo CSS de estilização
 
 export default function RegistroLoja() {
     const navigate = useNavigate();
 
-    //Informações para o cadastro da loja
     const [values, setValues] = useState({
         nome: '',
         endereco: '',
@@ -15,81 +15,82 @@ export default function RegistroLoja() {
     });
 
     const [userValues, setUserValues] = useState({
-        name: '',
         email: '',
         password: '',
     });
 
-    //Automaticamente atualizar informações do usuario ao mudar valores
+    const [errorMessage, setErrorMessage] = useState('');
+
     const onChange = (event) => {
-        setValues({...values, [event.target.name]: event.target.value});
-        setUserValues({...userValues, [event.target.name]: event.target.value});
-        console.log(values);
-        console.log(userValues);
+        setValues({ ...values, [event.target.name]: event.target.value });
+        setUserValues({ ...userValues, [event.target.name]: event.target.value });
     };
 
     const handleRegister = async (event) => {
-        event.preventDefault(); // Evitar o comportamento padrão do formulário
-        try{
-            const newUserValues = { ...userValues, name: values.nome }; //Atualizando campo "name" do userValues para o nome da loja
+        event.preventDefault();
+        try {
+            const newUserValues = { ...userValues, name: values.nome };
             setUserValues(newUserValues);
 
-            const { data, status } = await register(newUserValues);
-            console.log(data);
+            const { data: registerData, status: registerStatus } = await register(newUserValues);
 
-            // Armazena o token no localStorage
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('name', data.name);
-
-            // Verificar se a requisição foi bem-sucedida (código de status 2xx)
-            if (status >= 200 && status < 300) {
-                // Chamar o método para salvar a loja
-                const {data} = await salvarLoja(values);
-                console.log(data);
-                // Armazena o id do usuário (idLoja) no localStorage
-                localStorage.setItem('idLoja', data.id);
+            if (registerStatus >= 200 && registerStatus < 300) {
+                const { data: lojaData, status: lojaStatus } = await salvarLoja(values);
+                if (lojaStatus >= 200 && lojaStatus < 300) {
+                    localStorage.setItem('idLoja', lojaData.id);
+                    navigate("/"); // Redireciona para a página inicial
+                } else {
+                    console.error("Erro ao salvar loja:", lojaData.message);
+                    setErrorMessage('Erro ao salvar loja');
+                }
             } else {
-                console.error("Erro ao registrar usuário:", data.message);
+                console.error("Erro ao registrar usuário:", registerData.message);
+                if (registerData.message === 'Email already exists') {
+                    setErrorMessage('Já existe uma conta com esse email');
+                }
             }
-            navigate("/"); //Leva para página principal após o registro
-        }catch(error){
-            console.log(error)
+        } catch (error) {
+            console.log(error);
+            if (error.response && error.response.data.message === 'Email already exists') {
+                setErrorMessage('Já existe uma conta com esse email');
+            } else {
+                setErrorMessage('Já existe uma conta com esse email');
+            }
         }
     };
 
     return (
-        <div>
-            <form onSubmit={handleRegister}>
-                <div>
-                    <span>Nome da Loja:</span>
-                    <input type="text" name='nome' value={values.nome} onChange={onChange} required/>
-                </div>
-                <div>
-                    <span>Endereço:</span>
-                    <input type="text" name='endereco' value={values.endereco} onChange={onChange} required/>
-                </div>
-                <div>
-                    <span>CNPJ:</span>
-                    <input type="text" name='cnpj' value={values.cnpj} onChange={onChange} required/>
-                </div>
-                <div>
-                    <span>CPF do Proprietário:</span>
-                    <input type="text" name='cpf' value={values.cpf} onChange={onChange} required/>
-                </div>
-                <div>
-                    <span>Email:</span>
-                    <input type="text" name='email' value={userValues.email} onChange={onChange} required/>
-                </div>
-                <div>
-                    <span>Senha:</span>
-                    <input type="password" name='password' value={userValues.password} onChange={onChange} required/>
-                </div>
-            
-                <div>
-                    <button type="submit">Cadastrar Loja</button>
-                </div>
-            </form>
-        
+        <div className="registroLoja">
+            <div className="container">
+                <form onSubmit={handleRegister} className="form text-center ">
+                    <h2>Criar conta vendedor</h2>
+                    {errorMessage && <p className="error-message">{errorMessage}</p>}
+                    <div className="formGroup">
+                        <input type="text" id="nome" name='nome' value={values.nome} onChange={onChange} placeholder="Nome" required />
+                    </div>
+                    <div className="formGroup">
+                        <input type="text" id="endereco" name='endereco' value={values.endereco} onChange={onChange} placeholder="Endereço" required />
+                    </div>
+                    <div className="formGroup">
+                        <input type="text" id="cnpj" name='cnpj' value={values.cnpj} onChange={onChange} placeholder="CNPJ" required />
+                    </div>
+                    <div className="formGroup">
+                        <input type="text" id="cpf" name='cpf' value={values.cpf} onChange={onChange} placeholder="CPF" required />
+                    </div>
+                    <div className="formGroup">
+                        <input type="text" id="email" name='email' value={userValues.email} onChange={onChange} placeholder="Email" required />
+                    </div>
+                    <div className="formGroup">
+                        <input type="password" id="password" name='password' value={userValues.password} onChange={onChange} placeholder="Senha" required />
+                    </div>
+                    <div className="formGroup">
+                        <button type="submit" className="button">Cadastrar Conta</button>
+                    </div>
+                    <div className="text-center mt-2 link-wrapper">
+                        <Link to="#" onClick={() => navigate(-1)} className="link">Voltar</Link>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }

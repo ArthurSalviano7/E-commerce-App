@@ -1,88 +1,94 @@
 import React, { useEffect, useState } from 'react';
-import {getImagemProduto, listarProdutos, getProduto} from "../../api/ProdutoServico";
+import { getImagemProduto, getProduto } from "../../api/ProdutoServico";
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import { BiCartAdd} from "react-icons/bi";
+import './ProductCard.css';
+import { BiCartAdd } from "react-icons/bi";
 import { adicionarProdutoAoCarrinho } from '../../api/CarrinhoServico';
 import { useNavigate } from 'react-router-dom';
 
-export default function ProductCard({idProduto}) {
-
+export default function ProductCard({ idProduto }) {
   const navigate = useNavigate();
   const [imagem, setImagem] = useState(null);
   const [produto, setProduto] = useState({
-      descricao: '',
-      quantidade: '',
-      valor: '',
-      categoria: '',
-      descricao: '',
-      avaliacao: '',
-      urlImagem: ''
+    descricao: '',
+    quantidade: '',
+    valor: '',
+    categoria: '',
+    avaliacao: '',
+    urlImagem: ''
   });
 
   const handleAddProduct = async (idProduto) => {
     try {
       const idComprador = localStorage.getItem('idComprador');
-      const {data} = await adicionarProdutoAoCarrinho(idComprador, idProduto, 1);
-      navigate("/cart"); // Adiciona produto ao carrinho e leva para a página do carrinho
-    
+      console.log(`idComprador: ${idComprador}, idProduto: ${idProduto}`);
+      await adicionarProdutoAoCarrinho(idComprador, idProduto, 1);
+      navigate("/cart");
     } catch (error) {
-      console.log(error)
+      console.log('Erro ao adicionar produto ao carrinho:', error);
     }
   };
 
   useEffect(() => {
-    
     const fetchProduct = async () => {
-        try {
-            //Carregando e atualizando informações do produto com base no id
-            const response = await getProduto(idProduto);
-            const productData = response.data
-            setProduto(productData)
+      try {
+        const response = await getProduto(idProduto);
+        const productData = response.data;
+        setProduto(productData);
 
-            //Obter a imagem como um Blob:
-            const imgResponse = await getImagemProduto(productData.urlImagem);
+        const imgResponse = await getImagemProduto(productData.urlImagem);
+        const imageUrl = URL.createObjectURL(imgResponse);
 
-            // Criar uma URL Blob para a imagem
-            const imageUrl = URL.createObjectURL(imgResponse);
-
-            setImagem(imageUrl);
-            console.log(imageUrl);
-        } catch (error) {
-          console.error(error);
-        }
+        setImagem(imageUrl);
+        console.log(imageUrl);
+      } catch (error) {
+        console.error(error);
+      }
     };
 
-    // Chamando a função para buscar os produtos
     fetchProduct();
   }, [idProduto]);
 
-
-  // Renderiza o componente
   return (
-    <div className="p-3">
-              <div className="card border-0 rounded-0" style={{width: '12rem', height: '18rem'}}>
-                <div className='d-flex' style={{ width: '100%', height: '100px', overflow: 'hidden'}}>
-                  <img src={imagem} alt="Imagem do produto" className='card-img-top img-fluid' style={{ objectFit: 'contain', height: '100%', width: '100%' }}/>
-                </div>
-
-                <div>
-                    <div className='w-100 py-1'>
-                        <h4>{produto.descricao}</h4>                                
-                    </div>
-                </div>
-
-                <div className='align-items-center w-100'>
-                    <h5>R$ {produto.valor}</h5>
-                </div>
-
-                <div className=''>
-                        <button href='#' className='btn btn-dark text-warning p-1 w-100 rounded' onClick={() => handleAddProduct(produto.id)}>ADD TO CART  <BiCartAdd size={25}/></button>
-                  </div>
-              </div>   
+    <div className="col-12 col-sm-6 col-md-4 col-lg-3 mt-4 mx-2 product-card-container">
+      <div className="card product-card">
+        <div className='d-flex justify-content-center'>
+          <img src={imagem} alt="Imagem do produto" className='card-img-top img-fluid' />
+        </div>
+        <div className="card-body">
+          <p className="card-text product-category">{produto.categoria}</p>
+          <p className="card-text product-description">{produto.descricao}</p>
+          <h5 className="card-title product-price">R$ {produto.valor}</h5>
+          <button className='btn btn-add-cart w-100' onClick={() => handleAddProduct(produto.id)}>
+            Adicionar<BiCartAdd size={20} />
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
