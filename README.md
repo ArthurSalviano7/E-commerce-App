@@ -12,7 +12,7 @@ Lucas Manoel Freire Monteiro Cabral
 
 # Instruções
 
-## Instalar Dependências
+#### Instalar Dependências
 
 npm install --prefer-dedupe
 
