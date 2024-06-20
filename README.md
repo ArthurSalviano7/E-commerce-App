@@ -1,4 +1,4 @@
-Vitrine Virtual
+# Vitrine Virtual
 
 Projeto da disciplina Gerência de Projeto
 
@@ -9,3 +9,5 @@ Arthur Salviano Ferreira
 Fernando de Paiva Almeida Ferreira 
 
 Lucas Manoel Freire Monteiro Cabral
+
+# Instruções
