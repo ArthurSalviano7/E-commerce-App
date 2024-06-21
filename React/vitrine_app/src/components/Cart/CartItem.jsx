@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { getImagemProduto, getProduto, removerProdutoDoCarrinho, alterarQuantidadeProdutoNoCarrinho } from "../../api/ProdutoServico";
+import { alterarProdutoDoCarrinho, deletarProdutoDoCarrinho } from "../../api/CarrinhoServico";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 
-export default function CartItem({ idProduto, quantidade }) {
+export default function CartItem({ idProduto, quantidade, updateCart }) {
   const [imagem, setImagem] = useState(null);
   const [produto, setProduto] = useState({
     descricao: '',
@@ -14,6 +15,10 @@ export default function CartItem({ idProduto, quantidade }) {
     avaliacao: '',
     urlImagem: ''
   });
+  
+  const idComprador = localStorage.getItem('id');
+  console.log(idProduto);
+  console.log(idComprador);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -34,17 +39,25 @@ export default function CartItem({ idProduto, quantidade }) {
 
   const handleDecreaseQuantity = async () => {
     if (quantidade > 1) {
-      await alterarQuantidadeProdutoNoCarrinho(idProduto, quantidade - 1);
+      const response = await alterarProdutoDoCarrinho(idComprador, idProduto, quantidade - 1);
+      updateCart(idProduto, quantidade - 1); // Atualizar informações na página
     }
   };
 
   const handleIncreaseQuantity = async () => {
-    await alterarQuantidadeProdutoNoCarrinho(idProduto, quantidade + 1);
+    // Só aumenta a quantidade de produtos até o máximo disponível em estoque
+    if (produto.quantidade > quantidade){
+      const response = await alterarProdutoDoCarrinho(idComprador, idProduto, quantidade + 1);
+      updateCart(idProduto, quantidade + 1);
+    }
+    
   };
 
   const handleRemoveProduct = async () => {
-    await removerProdutoDoCarrinho(idProduto);
+    const response = await deletarProdutoDoCarrinho(idComprador, idProduto);
+    updateCart(idProduto);
   };
+
 
   return (
     <div className="p-3">

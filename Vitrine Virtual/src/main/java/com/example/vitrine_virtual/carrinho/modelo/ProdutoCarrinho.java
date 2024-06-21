@@ -30,8 +30,8 @@ public class ProdutoCarrinho { //Representa o produto e sua quantidade no carrin
     @Column(nullable = false)
     private int quantidade;
 
-    @JsonIgnore // Ignora a serialização do carrinho para evitar repetições
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY) // Ignora a serialização do carrinho para evitar repetições
     @JoinColumn(name = "id_carrinho", nullable = false)
     private Carrinho carrinho;
 }

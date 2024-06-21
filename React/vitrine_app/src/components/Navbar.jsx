@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { FaClipboardList } from 'react-icons/fa';
 import './Navbar.css';  // Arquivo CSS adicional para estilos personalizados
 
 import logoName from '../images/LogoName.png';
@@ -18,6 +19,13 @@ const Navbar = ({ searchText, setSearchText, handleSearch }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         handleSearch();
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('id');
+        localStorage.removeItem('TipoUsuario');
+        navigate("/");
+        window.location.reload()
     };
 
     const handleHomeButton = () => {
@@ -45,6 +53,8 @@ const Navbar = ({ searchText, setSearchText, handleSearch }) => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+
+    const isLoggedIn = localStorage.getItem('TipoUsuario'); //Armazena se o usuario está Logado
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light custom-navbar">
@@ -76,15 +86,27 @@ const Navbar = ({ searchText, setSearchText, handleSearch }) => {
                             <i className="bi bi-person-circle"></i>
                         </button>
                         <ul className={`dropdown-menu ${dropdownVisible ? 'show' : ''}`} aria-labelledby="dropdownMenuButton">
-                            <li><a className="dropdown-item" href="#" onClick={() => navigate("/login")}>Login</a></li>
-                            <li><a className="dropdown-item" href="#" onClick={() => navigate("/store")}>Cadastrar Produto</a></li>
+                            { !isLoggedIn && (<li><a className="dropdown-item" href="#" onClick={() => navigate("/login")}>Login</a></li>) }
                             <li><a className="dropdown-item" href="#" onClick={() => navigate("/registrar-comprador")}>Criar Conta</a></li>
                             <li><a className="dropdown-item" href="#" onClick={() => navigate("/registrar-loja")}>Criar Conta Vendedor</a></li>
+                            { isLoggedIn && (<li><a className="dropdown-item" href="#" onClick={() => handleLogout()}>Sair</a></li>) }
+                            {/* "Só mostra o botão Sair caso esteja Logado" */ }
                         </ul>
                     </div>
+
+                    { //Só mostra o botão de Carrinho se o usuário estiver logado como Comprador
+                    localStorage.getItem('TipoUsuario') == 'Comprador' ? 
                     <button className="btn icon-btn ms-3" onClick={() => navigate("/cart")}>
                         <i className="bi bi-cart"></i>
-                    </button>
+                    </button> :
+                    <span></span>}
+
+{                   //Só mostra o botão de Estoque se o usuário estiver logado como Loja
+                    localStorage.getItem('TipoUsuario') == 'Loja' ? 
+                    <button className="btn icon-btn ms-3" onClick={() => navigate("/store")}>
+                        <FaClipboardList size={24}/>
+                    </button> :
+                    <span></span>}
                 </div>
             </div>
         </nav>

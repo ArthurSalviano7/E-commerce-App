@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CartItem from './CartItem';
 
-export default function CartProductList({ cartItems, updateCart, onRemoverProduto, onAlterarQuantidade }) {
+export default function CartProductList({ cartItems, updateCart }) {
     return (
         <div className="w-75 border-right border-warning d-flex flex-column">
             {cartItems.map((item) => (
@@ -10,8 +10,7 @@ export default function CartProductList({ cartItems, updateCart, onRemoverProdut
                     key={item.produto.id}
                     idProduto={item.produto.id}
                     quantidade={item.quantidade}
-                    onRemoverProduto={onRemoverProduto} // Passando a função onRemoverProduto
-                    onAlterarQuantidade={onAlterarQuantidade} // Passando a função onAlterarQuantidade
+                    updateCart={updateCart}
                 />
             ))}
         </div>

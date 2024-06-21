@@ -10,8 +10,10 @@ export default function RegistroLoja() {
     const [values, setValues] = useState({
         nome: '',
         endereco: '',
+        email: '',
         cnpj: '',
         cpf: '',
+        avaliacao: 0
     });
 
     const [userValues, setUserValues] = useState({
@@ -37,7 +39,8 @@ export default function RegistroLoja() {
             if (registerStatus >= 200 && registerStatus < 300) {
                 const { data: lojaData, status: lojaStatus } = await salvarLoja(values);
                 if (lojaStatus >= 200 && lojaStatus < 300) {
-                    localStorage.setItem('idLoja', lojaData.id);
+                    localStorage.setItem('id', lojaData.id);
+                    localStorage.setItem('TipoUsuario', 'Loja');
                     navigate("/"); // Redireciona para a página inicial
                 } else {
                     console.error("Erro ao salvar loja:", lojaData.message);

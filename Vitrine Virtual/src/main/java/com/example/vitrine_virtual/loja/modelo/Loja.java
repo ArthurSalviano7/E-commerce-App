@@ -25,8 +25,10 @@ public class Loja {
     private String id;
     private String nome;
     private String cnpj;
+    private String email;
     private String endereco;
     private Double avaliacao;
+    private int totalAvaliacoes;
     private String cpf;
     
 }

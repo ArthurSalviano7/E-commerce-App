@@ -35,7 +35,8 @@ export default function RegistroComprador() {
                 localStorage.setItem('name', data.name);
 
                 const { data: compradorData } = await salvarComprador(values);
-                localStorage.setItem('idComprador', compradorData.id);
+                localStorage.setItem('id', compradorData.id);
+                localStorage.setItem('TipoUsuario', 'Comprador');
 
                 navigate("/");
             } else if (status === 409) { // Código de status HTTP 409 para conflito, que pode indicar que o email já está cadastrado
