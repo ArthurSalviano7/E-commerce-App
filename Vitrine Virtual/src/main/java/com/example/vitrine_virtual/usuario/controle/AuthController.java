@@ -2,6 +2,10 @@ package com.example.vitrine_virtual.usuario.controle;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.vitrine_virtual.comprador.modelo.Comprador;
+import com.example.vitrine_virtual.comprador.repositorio.CompradorRepositorio;
+import com.example.vitrine_virtual.loja.modelo.Loja;
+import com.example.vitrine_virtual.loja.repositorio.LojaRepositorio;
 import com.example.vitrine_virtual.produto.modelo.MensagemApi;
 import com.example.vitrine_virtual.usuario.dto.LoginRequestDTO;
 import com.example.vitrine_virtual.usuario.dto.RegisterRequestDTO;
@@ -37,6 +41,12 @@ public class AuthController {
     @Autowired
     private MensagemApi mensagemApi;
 
+    @Autowired
+    private LojaRepositorio lojaRepositorio;
+
+    @Autowired
+    private CompradorRepositorio compradorRepositorio;
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequestDTO body) {
         
@@ -45,7 +55,21 @@ public class AuthController {
         //Caso a senha esteja correta, gera o token e retorna
         if(passwordEncoder.matches(body.password(), usuario.getSenha())){
             String token = this.tokenServico.gerarToken(usuario);
-            return ResponseEntity.ok(new ResponseDTO(usuario.getNome(), token));
+
+            // Cria entidades para verificar o tipo do usuário que está fazendo Login (Se é Loja ou Comprador)
+            Optional<Loja> loja = this.lojaRepositorio.findByEmail(body.email());
+            Optional<Comprador> comprador = this.compradorRepositorio.findByEmail(body.email());
+            String tipoUsuario = "";
+            String id = "";
+            if (loja.isPresent()){
+                tipoUsuario = "Loja";
+                id = loja.get().getId();
+            }
+            if (comprador.isPresent()){
+                tipoUsuario = "Comprador";
+                id = comprador.get().getId();
+            }
+            return ResponseEntity.ok(new ResponseDTO(usuario.getNome(), token, tipoUsuario, id));
         }
 
         mensagemApi.setMensagem("Dados de login incorretos, tente novamente");
@@ -66,8 +90,22 @@ public class AuthController {
 
             this.usuarioRepositorio.save(novoUsuario);
 
+            Optional<Loja> loja = this.lojaRepositorio.findByEmail(body.email());
+            Optional<Comprador> comprador = this.compradorRepositorio.findByEmail(body.email());
+            String tipoUsuario = "";
+            String id = "";
+            if (!loja.isEmpty()){
+                tipoUsuario = "Loja";
+                id = loja.get().getId();
+                System.out.println("LOJA TESTE CADASTRADA");
+            }
+            if (!comprador.isEmpty()){
+                tipoUsuario = "Comprador";
+                id = comprador.get().getId();
+            }
+
             String token = this.tokenServico.gerarToken(novoUsuario);
-            return ResponseEntity.ok(new ResponseDTO(novoUsuario.getNome(), token));
+            return ResponseEntity.ok(new ResponseDTO(novoUsuario.getNome(), token,  tipoUsuario, id));
         }
         
         mensagemApi.setMensagem("Registro não pode ser concluído, email já cadastrado!");

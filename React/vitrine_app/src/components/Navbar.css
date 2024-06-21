@@ -50,7 +50,7 @@
 }
 
 .dropdown-menu {
-    left: -50%;
+    left: -100%;
     top: 100%;
     display: none;
     transition: opacity 0.3s ease;

@@ -17,13 +17,22 @@ export default function ProductCard({ idProduto }) {
     avaliacao: '',
     urlImagem: ''
   });
+  
+  //Armazena True se o usuario está Logado como comprador
+  const isLoggedIn = localStorage.getItem('TipoUsuario') == 'Comprador'; 
 
   const handleAddProduct = async (idProduto) => {
     try {
-      const idComprador = localStorage.getItem('idComprador');
-      console.log(`idComprador: ${idComprador}, idProduto: ${idProduto}`);
-      await adicionarProdutoAoCarrinho(idComprador, idProduto, 1);
-      navigate("/cart");
+      if (isLoggedIn){
+        const idComprador = localStorage.getItem('id');
+        console.log(`id: ${idComprador}, idProduto: ${idProduto}`);
+        await adicionarProdutoAoCarrinho(idComprador, idProduto, 1);
+        navigate("/cart");
+      }
+      else{
+        navigate("/login"); //Leva para a página de login caso não esteja logado
+      }
+      
     } catch (error) {
       console.log('Erro ao adicionar produto ao carrinho:', error);
     }

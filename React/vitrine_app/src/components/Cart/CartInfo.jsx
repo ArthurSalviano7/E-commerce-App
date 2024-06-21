@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function CartInfo({ cartItems }) {
+  const navigate = useNavigate();
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
@@ -26,8 +28,8 @@ export default function CartInfo({ cartItems }) {
   };
 
   return (
-    <div className="w-25 card">
-      <div className='card-body'>
+    <div className="w-25 card card-body">
+      <div>
         <h2>Valor Total</h2>
         <hr />
         <h4>{cartItems.length} produtos no carrinho</h4>
@@ -41,7 +43,9 @@ export default function CartInfo({ cartItems }) {
         </ul>
         <h3>Total: {formatCurrency(total)}</h3>
       </div>
-      <button className='btn btn-warning py-3'>Confirmar Compra</button>
+      <div className="bottom-0 end-0 p-3">
+        <button className="btn btn-warning w-100 py-3" onClick={() => navigate('/confirm-payment')} disabled={cartItems.length === 0}>Confirmar Compra</button>
+      </div>
     </div>
   );
 }

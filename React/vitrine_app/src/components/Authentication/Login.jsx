@@ -22,6 +22,8 @@ export default function Login() {
         try {
             const { data } = await login(values);
             console.log(data);
+            localStorage.setItem('id', data.id);
+            localStorage.setItem('TipoUsuario', data.userType);
             navigate("/"); // Leva para página principal após o Login
         } catch (error) {
             console.log(error);

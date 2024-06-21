@@ -28,6 +28,7 @@ public class Comprador {
     @Column(name = "id", unique = true, updatable = false)
     private String id;
     private String nome;
+    private String email;
     private String cpf;
     private String endereco; //Endereco para entrega
     private String telefone;
