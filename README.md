@@ -15,7 +15,7 @@ Lucas Manoel Freire Monteiro Cabral
 ### Configurar conexão do banco de dados
   O banco utilizado no projeto é o MySQL, certifique-se de já ter instalado e criado um usuário, após isso, você pode navegar até o arquivo 'application.properties' no caminho
 'E-commerce App\Vitrine Virtual\target\classes" e mudar o usuario e senha do arquivo manualmente,
- ## OU 
+ OU 
  crie váriaveis de ambiente com nome "SPRING_DATASOURCE_USERNAME" e "SPRING_DATASOURCE_PASSWORD" que representem, respectivamente, o usuário e senha do banco de dados MySQL.
 
  Feito isso, crie uma base de dados com o nome "vitrine_database" no seu banco (só precisa ser feito uma vez):
