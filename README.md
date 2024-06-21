@@ -27,7 +27,7 @@ Lucas Manoel Freire Monteiro Cabral
  crie váriaveis de ambiente com nome "SPRING_DATASOURCE_USERNAME" e "SPRING_DATASOURCE_PASSWORD" que representem, respectivamente, o usuário e senha do banco de dados MySQL.
 
  Feito isso, crie uma base de dados com o nome "vitrine_database" no seu banco (só precisa ser feito uma vez):
-   ´´´CREATE DATABASE vitrine_database;
+   ´CREATE DATABASE vitrine_database;´
   
 ### Instalar Dependências
 O arquivo requirements.txt na pasta do React contém todas as dependências do projeto node, após descompactar o arquivo zip, navegue para o
