@@ -17,12 +17,12 @@ Lucas Manoel Freire Monteiro Cabral
 - Maven
 - MySQL
 - Node
-- 
+  
 # Instruções 
 
 ## Configurar conexão do banco de dados
   O banco utilizado no projeto é o MySQL, certifique-se de já ter instalado e criado um usuário, após isso, você pode navegar até o arquivo 'application.properties' no caminho
-'E-commerce App\Vitrine Virtual\target\classes" e mudar o usuario e senha do arquivo manualmente,
+'E-commerce App\Vitrine Virtual\target\classes" e mudar o usuário e senha do arquivo manualmente,
  OU 
  crie váriaveis de ambiente com nome "SPRING_DATASOURCE_USERNAME" e "SPRING_DATASOURCE_PASSWORD" que representem, respectivamente, o usuário e senha do banco de dados MySQL.
 
@@ -50,7 +50,7 @@ Esse comando irá instalar as dependências listadas no arquivo "requirements.tx
   ```
   npm install "nome da dependencia"
   ```
-para instalar as dependencias manualmente.
+para instalar as dependências manualmente.
 
 ## Instalar dependências e executar springboot
 No diretório raiz do projeto "E-commerce App\Vitrine Virtual" (onde está o pom.xml), execute:
