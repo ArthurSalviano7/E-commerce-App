@@ -37,7 +37,9 @@ diretorio onde está o package.json ("E-commerce App\React\vitrine_app") e execu
 
 ### Windows:
   Abra o Windows Power Shell no diretório especificado e execute o comando:
-  `Get-Content requirements.txt | ForEach-Object { npm install $_ }`
+  ```
+  Get-Content requirements.txt | ForEach-Object { npm install $_ }
+  ```
 
 ### Linux:
   ```
@@ -59,6 +61,17 @@ Após isso, execute o projeto com:
   ```
   mvn spring-boot:run
   ```
+
+## Executar o Node
+
+Após a instalação das dependências, será necessário executar o Node.
+
+Navegue até o diretório do projeto Node "React\vitrine_app" e use o comando:
+  ```
+  npm start
+  ```
+
+Após isso, a página inicial da Vitrine Virtual abrirá no seu browser padrão. Também é possível ver a página inicial ao acessar "http://localhost:3000/"
   
 
 
